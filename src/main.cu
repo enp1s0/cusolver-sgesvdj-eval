@@ -137,7 +137,7 @@ void svdj_eval(
 		A_uptr.get()[i] = N_dist(mt);
 	}
 
-	svdj_params params{.ctol = 1};
+	svdj_params params{.ctol = 2};
 
 	if (mode == "lapack") {
 		lapack_svdj(
@@ -192,8 +192,9 @@ void svdj_eval(
 }
 
 int main() {
-	for (unsigned N = 256; N <= (1u << 14); N <<= 1) {
-		//svdj_eval(N, N, "lapack");
+	std::printf("mode,m,n,residual,u_orth,v_orth\n");
+	for (unsigned N = 256; N <= (1u << 12); N <<= 1) {
+		svdj_eval(N, N, "lapack");
 		svdj_eval(N, N, "cusolver");
 	}
 }
